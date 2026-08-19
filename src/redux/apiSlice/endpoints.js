@@ -13,8 +13,16 @@ export const endpoints = {
   },
   user: {
     listUsers: "list-users",
+    prescribedListUsers: "prescribed-list-users",
     updateUser: "update-user",
     deleteUser: "delete-user",
+  },
+  prescription: {
+    createByUsername: "create-by-username",
+    getByUsername: "get-by-username",
+    update: "update",
+    delete: "delete",
+    myPrescriptions: "my-prescriptions",
   },
 
   // Order endpoints

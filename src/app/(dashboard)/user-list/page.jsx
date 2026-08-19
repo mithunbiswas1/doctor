@@ -4,12 +4,7 @@
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  FaSearch,
-  FaUserPlus,
-  FaTimes,
-  FaTimes as FaClose,
-} from "react-icons/fa";
+import { FaSearch, FaUserPlus, FaTimes } from "react-icons/fa";
 import { toast } from "sonner";
 import {
   useGetListUsersQuery,
@@ -21,6 +16,7 @@ import UserEditModal from "./_components/UserEditModal";
 import UserDeleteModal from "./_components/UserDeleteModal";
 import UserViewModal from "./_components/UserViewModal";
 import Pagination from "@/components/ui/Pagination";
+import RegisterModal from "@/components/auth/RegisterModal";
 
 export default function UserListPage() {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -29,7 +25,9 @@ export default function UserListPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [prescribedFilter, setPrescribedFilter] = useState("");
   const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const limit = 10;
   const [selectedUser, setSelectedUser] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -49,6 +47,7 @@ export default function UserListPage() {
     search: search || undefined,
     role: roleFilter || undefined,
     is_active: statusFilter || undefined,
+    is_prescribed: prescribedFilter || undefined,
   });
 
   const [updateUser, { isLoading: isUpdating }] =
@@ -125,17 +124,43 @@ export default function UserListPage() {
     }
   };
 
+  // Handle prescribed toggle (only set to true, cannot undo)
+  const handlePrescribedToggle = async (user) => {
+    // Check if already prescribed
+    if (user.is_prescribed) {
+      toast.info("User is already prescribed");
+      return;
+    }
+
+    try {
+      await updateUser({
+        userId: user._id,
+        data: { is_prescribed: true },
+      }).unwrap();
+      toast.success(`${user.fullName} marked as prescribed successfully`);
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to update prescribed status");
+    }
+  };
+
   // Reset filters
   const resetFilters = () => {
     setSearch("");
     setRoleFilter("");
     setStatusFilter("");
+    setPrescribedFilter("");
     setPage(1);
   };
 
   // Handle page change
   const handlePageChange = (newPage) => {
     setPage(newPage);
+  };
+
+  // Handle modal success
+  const handleModalSuccess = () => {
+    refetch();
   };
 
   // Loading state
@@ -184,11 +209,11 @@ export default function UserListPage() {
           </p>
         </div>
         <button
-          onClick={() => refetch()}
+          onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
         >
           <FaUserPlus className="w-4 h-4" />
-          <span>Refresh</span>
+          <span>Add Patient</span>
         </button>
       </div>
 
@@ -238,8 +263,22 @@ export default function UserListPage() {
             <option value="false">Inactive</option>
           </select>
 
+          {/* Prescribed Filter */}
+          <select
+            value={prescribedFilter}
+            onChange={(e) => {
+              setPrescribedFilter(e.target.value);
+              setPage(1);
+            }}
+            className="px-4 py-2.5 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all bg-white"
+          >
+            <option value="">All Prescribed</option>
+            <option value="true">Prescribed</option>
+            <option value="false">Not Prescribed</option>
+          </select>
+
           {/* Reset Filters */}
-          {(search || roleFilter || statusFilter) && (
+          {(search || roleFilter || statusFilter || prescribedFilter) && (
             <button
               onClick={resetFilters}
               className="flex items-center gap-2 px-4 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
@@ -259,6 +298,7 @@ export default function UserListPage() {
         onEdit={handleEditClick}
         onDelete={handleDeleteClick}
         onStatusToggle={handleStatusToggle}
+        onPrescribedToggle={handlePrescribedToggle}
       />
 
       {/* Pagination */}
@@ -305,6 +345,13 @@ export default function UserListPage() {
           onClose={() => setIsViewModalOpen(false)}
         />
       )}
+
+      {/* Register Modal */}
+      <RegisterModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleModalSuccess}
+      />
     </div>
   );
 }

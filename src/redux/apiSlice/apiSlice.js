@@ -52,6 +52,8 @@ export const apiSlice = createApi({
     "Tracking",
     "User",
     "Users",
+    "Prescriptions",
+    "MyPrescriptions",
   ],
   endpoints: () => ({}),
 });

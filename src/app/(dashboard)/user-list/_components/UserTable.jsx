@@ -7,15 +7,13 @@ import {
   FaEye,
   FaEdit,
   FaTrash,
-  FaCheck,
-  FaTimes,
   FaUser,
   FaEnvelope,
   FaPhone,
   FaCalendarAlt,
-  FaUserTag,
   FaCheckCircle,
   FaExclamationCircle,
+  FaPrescription,
 } from "react-icons/fa";
 import { baseUriBackend } from "@/redux/url/url";
 
@@ -26,6 +24,7 @@ const UserTable = ({
   onEdit,
   onDelete,
   onStatusToggle,
+  onPrescribedToggle,
 }) => {
   if (users.length === 0) {
     return (
@@ -52,10 +51,10 @@ const UserTable = ({
                 Contact
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
+                Status
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
+                Prescribed
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Joined
@@ -112,28 +111,20 @@ const UserTable = ({
                   </div>
                 </td>
 
-                {/* Role */}
+                {/* Status - Clickable */}
                 <td className="px-4 py-3">
-                  <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full capitalize ${
-                      user.role === "admin"
-                        ? "bg-purple-100 text-purple-700"
-                        : "bg-blue-100 text-blue-700"
-                    }`}
-                  >
-                    <FaUserTag className="w-3 h-3" />
-                    {user.role}
-                  </span>
-                </td>
-
-                {/* Status */}
-                <td className="px-4 py-3">
-                  <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full ${
+                  <button
+                    onClick={() => onStatusToggle(user)}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer hover:opacity-80 ${
                       user.is_active
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                        ? "bg-green-100 text-green-700 hover:bg-green-200"
+                        : "bg-red-100 text-red-700 hover:bg-red-200"
                     }`}
+                    title={
+                      user.is_active
+                        ? "Click to deactivate"
+                        : "Click to activate"
+                    }
                   >
                     {user.is_active ? (
                       <FaCheckCircle className="w-3 h-3" />
@@ -141,7 +132,33 @@ const UserTable = ({
                       <FaExclamationCircle className="w-3 h-3" />
                     )}
                     {user.is_active ? "Active" : "Inactive"}
-                  </span>
+                  </button>
+                </td>
+
+                {/* Prescribed - Clickable (Only for customers) */}
+                <td className="px-4 py-3">
+                  {user.role === "customer" ? (
+                    user.is_prescribed ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700 cursor-default">
+                        <FaPrescription className="w-3 h-3" />
+                        Prescribed
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => onPrescribedToggle(user)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-500 hover:bg-green-100 hover:text-green-700 transition-colors cursor-pointer"
+                        title="Click to mark as prescribed"
+                      >
+                        <FaPrescription className="w-3 h-3" />
+                        Prescribe
+                      </button>
+                    )
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-400 cursor-default">
+                      <FaPrescription className="w-3 h-3" />
+                      N/A
+                    </span>
+                  )}
                 </td>
 
                 {/* Joined */}
@@ -161,21 +178,6 @@ const UserTable = ({
                       title="View Details"
                     >
                       <FaEye className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => onStatusToggle(user)}
-                      className={`p-1.5 rounded-lg transition-colors ${
-                        user.is_active
-                          ? "text-yellow-600 hover:bg-yellow-50"
-                          : "text-green-600 hover:bg-green-50"
-                      }`}
-                      title={user.is_active ? "Deactivate" : "Activate"}
-                    >
-                      {user.is_active ? (
-                        <FaTimes className="w-4 h-4" />
-                      ) : (
-                        <FaCheck className="w-4 h-4" />
-                      )}
                     </button>
                     <button
                       onClick={() => onEdit(user)}

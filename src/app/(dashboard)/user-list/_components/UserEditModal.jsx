@@ -3,7 +3,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaPrescription } from "react-icons/fa";
 
 const UserEditModal = ({ user, isOpen, onClose, onSubmit, isLoading }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,8 @@ const UserEditModal = ({ user, isOpen, onClose, onSubmit, isLoading }) => {
     phone: user.phone || "",
     role: user.role || "customer",
     is_active: user.is_active !== undefined ? user.is_active : true,
+    is_prescribed:
+      user.is_prescribed !== undefined ? user.is_prescribed : false,
     bio: user.bio || "",
     address: user.address || "",
     city: user.city || "",
@@ -140,6 +142,28 @@ const UserEditModal = ({ user, isOpen, onClose, onSubmit, isLoading }) => {
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Prescribed Status
+              </label>
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg">
+                <FaPrescription
+                  className={`w-4 h-4 ${formData.is_prescribed ? "text-green-600" : "text-gray-400"}`}
+                />
+                <span
+                  className={`font-medium ${formData.is_prescribed ? "text-green-700" : "text-gray-500"}`}
+                >
+                  {formData.is_prescribed ? "Prescribed" : "Not Prescribed"}
+                </span>
+                <span className="text-xs text-gray-400 ml-auto">
+                  (Read Only)
+                </span>
+              </div>
+              <p className="text-xs text-gray-400 mt-1">
+                Prescribed status can only be changed from the user list
+              </p>
             </div>
 
             <div className="md:col-span-2">

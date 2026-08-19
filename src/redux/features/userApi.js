@@ -17,6 +17,16 @@ export const userApi = apiSlice.injectEndpoints({
       providesTags: ["Users"],
     }),
 
+    // Get prescribed users (Admin only)
+    getPrescribedUsers: builder.query({
+      query: (params) => ({
+        url: endpoints.user.prescribedListUsers,
+        method: "GET",
+        params: params,
+      }),
+      providesTags: ["Users"],
+    }),
+
     // Update user by admin (Admin only)
     updateUserByAdmin: builder.mutation({
       query: ({ userId, data }) => ({
@@ -40,6 +50,7 @@ export const userApi = apiSlice.injectEndpoints({
 
 export const {
   useGetListUsersQuery,
+  useGetPrescribedUsersQuery,
   useUpdateUserByAdminMutation,
   useDeleteUserByAdminMutation,
 } = userApi;

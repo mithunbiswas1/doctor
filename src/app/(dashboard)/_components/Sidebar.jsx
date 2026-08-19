@@ -49,8 +49,8 @@ const Sidebar = ({ isMobileOpen, onMobileClose }) => {
           icon: FaCalendarCheck,
         },
         {
-          name: "Prescription List",
-          href: "/prescription-list",
+          name: "Prescribed Users",
+          href: "/prescribed-users",
           icon: FaPrescription,
         },
         {
@@ -76,7 +76,7 @@ const Sidebar = ({ isMobileOpen, onMobileClose }) => {
         },
         {
           name: "My Prescriptions",
-          href: "/my-prescriptions",
+          href: "/prescription",
           icon: FaPrescription,
         },
       ];
