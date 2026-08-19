@@ -44,8 +44,8 @@ const Sidebar = ({ isMobileOpen, onMobileClose }) => {
           icon: FaUser,
         },
         {
-          name: "Booking List",
-          href: "/booking-list",
+          name: "Appointment Booking",
+          href: "/appointment-booking",
           icon: FaCalendarCheck,
         },
         {

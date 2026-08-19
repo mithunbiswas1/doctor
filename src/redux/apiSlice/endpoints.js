@@ -24,6 +24,14 @@ export const endpoints = {
     delete: "delete",
     myPrescriptions: "my-prescriptions",
   },
+  appointment: {
+    createAppointment: "create-appointment",
+    adminAllAppointments: "admin-all-appointments",
+    myAppointments: "my-appointments",
+    adminUpdateAppointmentById: "admin-update-appointment-by-id",
+    adminDeleteAppointmentById: "admin-delete-appointment-by-id",
+    singleAppointmentById: "single-appointment-by-id",
+  },
 
   // Order endpoints
   order: {
