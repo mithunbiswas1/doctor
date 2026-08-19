@@ -29,7 +29,7 @@ export default function Navbar() {
 
   const userRole = user?.role || null;
 
-  // Update navigation - show login/register if not logged in
+  // Update navigation - show login/registration if not logged in
   const updatedNavigation = navigation.map((item) => {
     if (item.isAccount && !isLoggedIn) {
       return {
@@ -41,7 +41,7 @@ export default function Navbar() {
           },
           {
             name: "Register",
-            href: "/register",
+            href: "/registration",
           },
         ],
       };

@@ -5,8 +5,16 @@ export const endpoints = {
   auth: {
     registration: "register",
     login: "login",
-    sendOtp: "new-otp",
-    otpVerifyLogin: "otp-verify",
+    refreshToken: "refresh-token",
+    logout: "logout",
+    profile: "profile",
+    updateProfile: "update-profile",
+    updatePassword: "update-password",
+  },
+  user: {
+    listUsers: "list-users",
+    updateUser: "update-user",
+    deleteUser: "delete-user",
   },
 
   // Order endpoints

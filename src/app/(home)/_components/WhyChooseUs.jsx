@@ -33,7 +33,8 @@ export default function WhyChooseUs() {
         {/* Heading */}
         <div className="text-center mb-12">
           <H2 className="text-gray-50 font-bold">
-            The Taste of <span className="text-amber-400 pl-1">True Excellence</span>
+            The Taste of{" "}
+            <span className="text-amber-400 pl-1">True Excellence</span>
           </H2>
 
           <p className="mt-4 max-w-2xl mx-auto text-gray-300">

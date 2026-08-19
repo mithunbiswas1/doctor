@@ -1,4 +1,5 @@
-// src/app/(dashboard)/layout.jsx
+// src/app/(user-dashboard)/layout.jsx
+
 "use client";
 
 import { useEffect, useState } from "react";

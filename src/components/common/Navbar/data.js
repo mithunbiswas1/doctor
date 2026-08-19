@@ -6,22 +6,16 @@ export const navigation = [
     href: "/",
   },
   {
-    name: "Menu",
-    href: "/menu",
+    name: "About",
+    href: "/about",
   },
   {
-    name: "Catering",
-    href: "/catering",
-    subMenu: [
-      {
-        name: "Catering Request",
-        href: "/catering-request",
-      },
-      {
-        name: "Catering Request",
-        href: "/catering-request",
-      },
-    ],
+    name: "Appointments",
+    href: "/appointments",
+  },
+  {
+    name: "Contact",
+    href: "/contact",
   },
   {
     name: "Account",
@@ -31,23 +25,28 @@ export const navigation = [
       {
         name: "Dashboard",
         href: "/dashboard",
-        showFor: ["admin", "super_admin", "author"],
+        showFor: ["admin"],
       },
       {
-        name: "My Orders",
-        href: "/orders",
-        showFor: ["admin", "super_admin", "author", "customer"],
+        name: "My Appointments",
+        href: "/my-appointments",
+        showFor: ["admin", "customer"],
       },
       {
         name: "My Profile",
         href: "/profile",
-        showFor: ["admin", "super_admin", "author", "customer"],
+        showFor: ["admin", "customer"],
+      },
+      {
+        name: "Patients",
+        href: "/patients",
+        showFor: ["admin"],
       },
       {
         name: "Logout",
         href: "#",
         isLogout: true,
-        showFor: ["admin", "super_admin", "author", "customer"],
+        showFor: ["admin", "customer"],
       },
     ],
   },
